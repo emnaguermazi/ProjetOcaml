@@ -15,7 +15,7 @@ let find_path gf s t =
           if a path exist -> return it
           else check the next node*)
         let rec loop list = match list with
-          | [] -> []
+          | [] -> [] 
           | (id,lbl)::rest -> 
             match find_arcs gf ((id2,id,lbl)::list_arcs) new_marked t with
             | [] -> loop rest
@@ -38,7 +38,7 @@ let rec update_graph gf path =
   let update_arcs graph id1 id2 n =
     let graph = add_arc graph id1 id2 (-n) in
     let graph = add_arc graph id2 id1 n in graph
-  in 
+  in
   match path with
   | [] -> failwith "Empty path 2!\n"
   | [(id1,id2,lbl)] -> update_arcs gf id1 id2 (min_capacity path)
@@ -55,3 +55,32 @@ let rec ford_fulkerson gf s t flow =
 let rec print_list path = match path with
   |[] -> Printf.printf "\nend\n\n%!"
   |(id1,id2,lbl)::rest -> Printf.printf"\n%d , %d, %d\n\n%!" id1 id2 lbl; print_list rest
+
+(*let remove_arc gf id1 id2 = match find_arc gf id1 id2 with
+  | None -> raise (Graph_error ("Arc " ^ string_of_int id1 ^ " - " ^ string_of_int id1 ^ "does not exist"))
+  | Some _ -> List.map(fun(a,out) -> if a=id1 && List.mem_assoc id2 out then (a, List.remove_assoc id2 out) else (a,out))  *)
+
+let update_graph2 gf path =
+  let min = min_capacity path in
+  let rec update_path gf path = match path with
+    | [] -> gf
+    | (id1,id2,lbl)::rest -> 
+      if lbl = min 
+      (*lbl = min -> remove*) 
+      then update_path(remove_arc gf id1 id2) rest 
+      else update_path (update_arc gf id1 id2 (lbl - min)) rest 
+  in
+  let rec update_rev_path gf path = match path with
+    | [] -> gf
+    | (id1,id2,_)::rest -> match find_arc gf id1 id2 with
+      | None -> update_rev_path (add_arc gf id2 id1 min ) rest
+      | Some n -> update_rev_path ( update_arc gf id2 id1 (n + min) ) rest
+  in update_rev_path (update_path gf path) path
+
+let rec ford_fulkerson2 gf s t flow =
+  let path = find_path gf s t
+  in match path with
+  | [] -> flow
+  | _ -> ford_fulkerson2 (update_graph2 gf path) s t (flow + (min_capacity path))
+
+

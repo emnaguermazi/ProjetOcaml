@@ -58,4 +58,29 @@ let rec print_list path = match path with
 
 (*let remove_arc gf id1 id2 = match find_arc gf id1 id2 with
   | None -> raise (Graph_error ("Arc " ^ string_of_int id1 ^ " - " ^ string_of_int id1 ^ "does not exist"))
-  | Some _ -> List.map(fun(a,out) -> if a=id1 && List.mem_assoc id2 out then (a, List.remove_assoc id2 out) else (a,out)) *)
+  | Some _ -> List.map(fun(a,out) -> if a=id1 && List.mem_assoc id2 out then (a, List.remove_assoc id2 out) else (a,out))  *)
+
+let update_graph2 gf path =
+  let min = min_capacity path in
+  let rec update_path gf path = match path with
+    | [] -> gf
+    | (id1,id2,lbl)::rest -> 
+      if lbl = min 
+      (*lbl = min -> remove*) 
+      then update_path(remove_arc gf id1 id2) rest 
+      else update_path (update_arc gf id1 id2 (lbl - min)) rest 
+  in
+  let rec update_rev_path gf path = match path with
+    | [] -> gf
+    | (id1,id2,_)::rest -> match find_arc gf id1 id2 with
+      | None -> update_rev_path (add_arc gf id2 id1 min ) rest
+      | Some n -> update_rev_path ( update_arc gf id2 id1 (n + min) ) rest
+  in update_rev_path (update_path gf path) path
+
+let rec ford_fulkerson2 gf s t flow =
+  let path = find_path gf s t
+  in match path with
+  | [] -> flow
+  | _ -> ford_fulkerson2 (update_graph2 gf path) s t (flow + (min_capacity path))
+
+

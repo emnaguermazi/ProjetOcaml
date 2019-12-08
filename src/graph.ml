@@ -47,3 +47,9 @@ let e_iter gr f = List.iter (fun (id1, out) -> List.iter (fun (id2, x) -> f id1 
 
 let e_fold gr f acu = List.fold_left (fun acu (id1, out) -> List.fold_left (fun acu (id2, x) -> f acu id1 id2 x) acu out) acu gr
 
+let remove_arc gr id1 id2 = match find_arc gr id1 id2 with
+  | None -> raise (Graph_error ("Arc " ^ string_of_int id1 ^ " - " ^ string_of_int id1 ^ "does not exist"))
+  | Some _ -> List.map(fun(a,out) -> if a=id1 && List.mem_assoc id2 out then (a, List.remove_assoc id2 out) else (a,out)) gr
+
+let update_arc gr id1 id2 newlbl = 
+  List.map (fun (a,out) ->  (a,List.map (fun (b,lbl) -> if a=id1 && b=id2 then (b,newlbl) else (b,lbl) ) out)) gr
