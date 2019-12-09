@@ -1,8 +1,0 @@
-digraph finite_state_machine {
-rankdir=LR;
-Size="8,5"
-node [shape = circle];
-LR_5 -> LR_2 [ label = 2 ]
-LR_0 -> LR_5 [ label = 2 ]
-LR_0 -> LR_2 [ label = 8 ]
-}
