@@ -59,8 +59,12 @@ val e_iter: 'a graph -> (id -> id -> 'a -> unit) -> unit
 (* Fold on all arcs (edges) *)
 val e_fold: 'a graph -> ('b -> id -> id -> 'a -> 'b) -> 'b -> 'b
 
+(*Change the label of the arc from a to b by the new value 'newlbl' if the arc already exists, 
+  else return the init graph *)
 val update_arc : 'a graph -> id -> id -> 'a -> 'a graph
 
+(*Remove an arc if it exists in the graph 
+  @raise Graph_error if the arc does not exist in the graph *)
 val remove_arc : 'a graph -> id -> id -> 'a graph
 
 val find_nodes : 'a graph -> id list

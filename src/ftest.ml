@@ -25,14 +25,7 @@ let () =
   (* Open file *)
   let graph = from_file infile in
   let graph = gmap graph int_of_string in
-  (*let flow = ford_fulkerson graph 0 3 0 in*)
-  (*let graph = ford_fulkerson2 graph _source _sink in*)
-  (*let graph = gmap graph string_of_int in*)
-  (* Rewrite the graph that has been read. *)
-
-  (*Printf.printf "\n Max flow = %d \n\n%!" flow*)
-  (*let min = find_min path in*)
-  let graph = ford_fulkerson2 graph _source _sink in
+  let graph = ford_fulkerson graph _source _sink in
   let graph = gmap graph string_of_int in
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile graph in
