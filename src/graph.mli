@@ -62,3 +62,5 @@ val e_fold: 'a graph -> ('b -> id -> id -> 'a -> 'b) -> 'b -> 'b
 val update_arc : 'a graph -> id -> id -> 'a -> 'a graph
 
 val remove_arc : 'a graph -> id -> id -> 'a graph
+
+val find_nodes : 'a graph -> id list

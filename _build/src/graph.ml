@@ -53,3 +53,7 @@ let remove_arc gr id1 id2 = match find_arc gr id1 id2 with
 
 let update_arc gr id1 id2 newlbl = 
   List.map (fun (a,out) ->  (a,List.map (fun (b,lbl) -> if a=id1 && b=id2 then (b,newlbl) else (b,lbl) ) out)) gr
+
+let rec find_nodes gr = match gr with 
+  | [] -> []
+  | (id,_) :: rest -> id :: (find_nodes rest)

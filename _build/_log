@@ -1,6 +1,6 @@
 ### Starting build.
 # Target: src/ftest.ml.depends, tags: { extension:ml, file:src/ftest.ml, include, ocaml, ocamldep, quiet, traverse }
-/Users/HaHa/.opam/default/bin/ocamldep.opt -modules src/ftest.ml > src/ftest.ml.depends # cached
+/Users/HaHa/.opam/default/bin/ocamldep.opt -modules src/ftest.ml > src/ftest.ml.depends
 # Target: src/fordfulkerson.mli.depends, tags: { extension:mli, file:src/fordfulkerson.mli, include, ocaml, ocamldep, quiet, traverse }
 /Users/HaHa/.opam/default/bin/ocamldep.opt -modules src/fordfulkerson.mli > src/fordfulkerson.mli.depends # cached
 # Target: src/gfile.mli.depends, tags: { extension:mli, file:src/gfile.mli, include, ocaml, ocamldep, quiet, traverse }
@@ -18,7 +18,7 @@
 # Target: src/fordfulkerson.cmi, tags: { byte, compile, extension:mli, file:src/fordfulkerson.mli, include, interf, ocaml, quiet, traverse }
 /Users/HaHa/.opam/default/bin/ocamlc.opt -c -I src -o src/fordfulkerson.cmi src/fordfulkerson.mli # cached
 # Target: src/ftest.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:src/ftest.cmo, file:src/ftest.ml, implem, include, ocaml, quiet, traverse }
-/Users/HaHa/.opam/default/bin/ocamlc.opt -c -I src -o src/ftest.cmo src/ftest.ml # cached
+/Users/HaHa/.opam/default/bin/ocamlc.opt -c -I src -o src/ftest.cmo src/ftest.ml
 # Target: src/fordfulkerson.ml.depends, tags: { extension:ml, file:src/fordfulkerson.ml, include, ocaml, ocamldep, quiet, traverse }
 /Users/HaHa/.opam/default/bin/ocamldep.opt -modules src/fordfulkerson.ml > src/fordfulkerson.ml.depends # cached
 # Target: src/gfile.ml.depends, tags: { extension:ml, file:src/gfile.ml, include, ocaml, ocamldep, quiet, traverse }
@@ -36,7 +36,7 @@
 # Target: src/fordfulkerson.cmx, tags: { compile, extension:cmx, extension:ml, file:src/fordfulkerson.cmx, file:src/fordfulkerson.ml, implem, include, native, ocaml, quiet, traverse }
 /Users/HaHa/.opam/default/bin/ocamlopt.opt -c -I src -o src/fordfulkerson.cmx src/fordfulkerson.ml # cached
 # Target: src/ftest.cmx, tags: { compile, extension:cmx, extension:ml, file:src/ftest.cmx, file:src/ftest.ml, implem, include, native, ocaml, quiet, traverse }
-/Users/HaHa/.opam/default/bin/ocamlopt.opt -c -I src -o src/ftest.cmx src/ftest.ml # cached
+/Users/HaHa/.opam/default/bin/ocamlopt.opt -c -I src -o src/ftest.cmx src/ftest.ml
 # Target: src/ftest.native, tags: { dont_link_with, extension:native, file:src/ftest.native, include, link, native, ocaml, program, quiet, traverse }
-/Users/HaHa/.opam/default/bin/ocamlopt.opt -I src src/graph.cmx src/gfile.cmx src/tools.cmx src/fordfulkerson.cmx src/ftest.cmx -o src/ftest.native # cached
+/Users/HaHa/.opam/default/bin/ocamlopt.opt -I src src/graph.cmx src/gfile.cmx src/tools.cmx src/fordfulkerson.cmx src/ftest.cmx -o src/ftest.native
 # Compilation successful.
