@@ -24,6 +24,7 @@ To generate an image from a dot file, type on command line:
 
 In this part, we have to understand and implement the Ford-Fulkerson algorithm (in the module `fordfulkerson`, which define a module fordfulkerson), then test it on several examples and verify. We also created the module tool which contains severals additionnals functions used in the module fordfulkerson and the main program. 
 
+### Part II : Ford-Fulkerson algorithm's use-case : Circulation–demand problem ([Max flow page](https://en.wikipedia.org/wiki/Maximum_flow_problem#Circulation%E2%80%93demand_problem))
 -----------------------------------------------------------------------
 
 Base project for Ocaml project on Ford-Fulkerson. This project contains some simple configuration files to facilitate editing Ocaml in VSCode.
