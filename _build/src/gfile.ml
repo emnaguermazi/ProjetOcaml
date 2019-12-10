@@ -43,21 +43,21 @@ let read_node id graph line =
   try Scanf.sscanf line "n %f %f" (fun _ _ -> new_node graph id)
   with e ->
     Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
-    failwith "from_file"
+    failwith "read_node"
 
 (* Reads a line with an arc. *)
 let read_arc graph line =
   try Scanf.sscanf line "e %d %d %s" (fun id1 id2 label -> new_arc graph id1 id2 label)
   with e ->
     Printf.printf "Cannot read arc in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
-    failwith "from_file"
+    failwith "read_arc"
 
 (* Reads a comment or fail. *)
 let read_comment graph line =
   try Scanf.sscanf line " %%" graph
   with _ ->
     Printf.printf "Unknown line:\n%s\n%!" line ;
-    failwith "from_file"
+    failwith "read_comment"
 
 let from_file path =
 
