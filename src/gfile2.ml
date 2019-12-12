@@ -10,9 +10,6 @@ type path = string
    n 1
    n 2
 
-
-   % The first node has id 0, the next is 1, and so on.
-
    % Edges: e source dest label
    e 3 1 11
    e 0 2 8

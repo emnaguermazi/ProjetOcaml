@@ -1,6 +1,6 @@
 ### Starting build.
 # Target: src/ctest.ml.depends, tags: { extension:ml, file:src/ctest.ml, include, ocaml, ocamldep, quiet, traverse }
-/Users/HaHa/.opam/default/bin/ocamldep.opt -modules src/ctest.ml > src/ctest.ml.depends
+/Users/HaHa/.opam/default/bin/ocamldep.opt -modules src/ctest.ml > src/ctest.ml.depends # cached
 # Target: src/cfile.mli.depends, tags: { extension:mli, file:src/cfile.mli, include, ocaml, ocamldep, quiet, traverse }
 /Users/HaHa/.opam/default/bin/ocamldep.opt -modules src/cfile.mli > src/cfile.mli.depends # cached
 # Target: src/graph.mli.depends, tags: { extension:mli, file:src/graph.mli, include, ocaml, ocamldep, quiet, traverse }
@@ -26,7 +26,7 @@
 # Target: src/gfile2.cmi, tags: { byte, compile, extension:mli, file:src/gfile2.mli, include, interf, ocaml, quiet, traverse }
 /Users/HaHa/.opam/default/bin/ocamlc.opt -c -I src -o src/gfile2.cmi src/gfile2.mli # cached
 # Target: src/ctest.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:src/ctest.cmo, file:src/ctest.ml, implem, include, ocaml, quiet, traverse }
-/Users/HaHa/.opam/default/bin/ocamlc.opt -c -I src -o src/ctest.cmo src/ctest.ml
+/Users/HaHa/.opam/default/bin/ocamlc.opt -c -I src -o src/ctest.cmo src/ctest.ml # cached
 # Target: src/cfile.ml.depends, tags: { extension:ml, file:src/cfile.ml, include, ocaml, ocamldep, quiet, traverse }
 /Users/HaHa/.opam/default/bin/ocamldep.opt -modules src/cfile.ml > src/cfile.ml.depends # cached
 # Target: src/graph.ml.depends, tags: { extension:ml, file:src/graph.ml, include, ocaml, ocamldep, quiet, traverse }
@@ -52,7 +52,7 @@
 # Target: src/gfile2.cmx, tags: { compile, extension:cmx, extension:ml, file:src/gfile2.cmx, file:src/gfile2.ml, implem, include, native, ocaml, quiet, traverse }
 /Users/HaHa/.opam/default/bin/ocamlopt.opt -c -I src -o src/gfile2.cmx src/gfile2.ml # cached
 # Target: src/ctest.cmx, tags: { compile, extension:cmx, extension:ml, file:src/ctest.cmx, file:src/ctest.ml, implem, include, native, ocaml, quiet, traverse }
-/Users/HaHa/.opam/default/bin/ocamlopt.opt -c -I src -o src/ctest.cmx src/ctest.ml
+/Users/HaHa/.opam/default/bin/ocamlopt.opt -c -I src -o src/ctest.cmx src/ctest.ml # cached
 # Target: src/ctest.native, tags: { dont_link_with, extension:native, file:src/ctest.native, include, link, native, ocaml, program, quiet, traverse }
-/Users/HaHa/.opam/default/bin/ocamlopt.opt -I src src/graph.cmx src/cfile.cmx src/gfile.cmx src/tools.cmx src/fordfulkerson.cmx src/gfile2.cmx src/ctest.cmx -o src/ctest.native
+/Users/HaHa/.opam/default/bin/ocamlopt.opt -I src src/graph.cmx src/cfile.cmx src/gfile.cmx src/tools.cmx src/fordfulkerson.cmx src/gfile2.cmx src/ctest.cmx -o src/ctest.native # cached
 # Compilation successful.

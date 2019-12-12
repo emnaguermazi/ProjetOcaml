@@ -32,7 +32,6 @@ let rec find_arcs gf list_arcs marked t = match list_arcs with
           | path -> path
       in loop list_node_not_marked
 
-
 let find_path gf s t =
   if not (node_exists gf s) then raise(Graph_error ("Node " ^ string_of_int s ^ " does not exist in the graph."))
   else if not (node_exists gf t) then raise(Graph_error ("Node " ^ string_of_int t ^ " does not exist in the graph."))
@@ -52,6 +51,7 @@ let rec print_list path = match path with
 
 let update_graph gf path =
   let min = min_capacity path in
+  (*Updates all arc of the path by increasing their flow or decreasing their capacity*)
   let rec update_path gf path = match path with
     | [] -> gf
     | (id1,id2,lbl)::rest -> 
@@ -60,6 +60,7 @@ let update_graph gf path =
       then update_path(remove_arc gf id1 id2) rest 
       else update_path (update_arc gf id1 id2 (lbl - min)) rest 
   in
+  (*Updates all reverse arcs*)
   let rec update_rev_path gf path = match path with
     | [] -> gf
     | (id1,id2,_)::rest -> 
@@ -85,6 +86,7 @@ let initalize_output gf =
 let rec ford_fulkerson gf s t =
   let output = initalize_output gf in  
   let rec loop gf flow output =
+    (*While it exists a path from s to t, continue algo *)
     if (path_exist gf s t) then
       let path = find_path gf s t in
       let min = min_capacity path in

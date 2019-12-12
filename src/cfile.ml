@@ -3,10 +3,11 @@ open Printf
 
 type path = string
 
-(* Format of text files:
+(* Format of text input files:
 
    S id p  -> Source(Factory)'s id with capacity p(p is the production rate of the factory )
    T id d  -> Destination(Village)'s id with capacity d( d is the demand rate of the village)
+   N id    -> Node's id
 
    % Road with its capacity c
    R id1 id2 c
@@ -30,25 +31,27 @@ let read_destination line outfile =
     Printf.printf "Cannot read arc in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "read_destination"
 
-let read_transport line outfile =
+(* Reads a line with a road. *)
+let read_road line outfile =
   try Scanf.sscanf line "R %s %s %s" (fun id1 id2 lbl ->
       fprintf outfile "e %s %s %s\n" id1 id2 lbl;)
   with e ->
     Printf.printf "Cannot read line - %s:\n%s\n%!" (Printexc.to_string e) line ;
-    failwith "read_transport"
+    failwith "read_road"
 
+(* Reads a line with a node. *)
 let read_node line outfile =
   try Scanf.sscanf line "N %s" (fun id -> fprintf outfile "n %s\n"  id;)
   with e ->
     Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "read_node"
-
+(* Translate input text file of circulation-demand problem into a text-formated graph file *)
 let create_file infile outfile =
 
   let fx = open_in infile in
   let ff = open_out outfile in
 
-  (* Create 2 points : Source and Destination*)
+  (* Create 2 node : Source (0) and Destination(100)*)
   fprintf ff "n 0\n";
   fprintf ff "n 100\n";
 
@@ -60,12 +63,12 @@ let create_file infile outfile =
         (* Ignore empty lines *)
         if line = "" then ()
 
-        (* The first character of a line determines its content : S, D or C.
+        (* The first character of a line determines its content : S, T, R or N.
          * Else it will be ignored *)
         else match line.[0] with
           | 'S' -> read_source line ff
           | 'T' -> read_destination line ff
-          | 'R' -> read_transport line ff 
+          | 'R' -> read_road line ff 
           | 'N' -> read_node line ff
           | _ -> ()
       in                 
