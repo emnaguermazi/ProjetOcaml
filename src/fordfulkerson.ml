@@ -50,10 +50,6 @@ let rec print_list path = match path with
   | [] -> Printf.printf "\nend\n\n%!"
   | (id1,id2,lbl)::rest -> Printf.printf"\n%d , %d, %d\n\n%!" id1 id2 lbl; print_list rest
 
-(*let remove_arc gf id1 id2 = match find_arc gf id1 id2 with
-  | None -> raise (Graph_error ("Arc " ^ string_of_int id1 ^ " - " ^ string_of_int id1 ^ "does not exist"))
-  | Some _ -> List.map(fun(a,out) -> if a=id1 && List.mem_assoc id2 out then (a, List.remove_assoc id2 out) else (a,out))  *)
-
 let update_graph gf path =
   let min = min_capacity path in
   let rec update_path gf path = match path with
@@ -68,7 +64,7 @@ let update_graph gf path =
     | [] -> gf
     | (id1,id2,_)::rest -> 
       match find_arc gf id1 id2 with
-      | None -> update_rev_path (add_arc gf id2 id1 min ) rest
+      | None -> update_rev_path (new_arc gf id2 id1 min ) rest
       | Some n -> update_rev_path ( update_arc gf id2 id1 (n + min) ) rest
   in update_rev_path (update_path gf path) path
 
@@ -78,8 +74,8 @@ let update_output gf path =
     | [] -> gf
     | (id1,id2,_)::rest -> 
       match (find_arc gf id1 id2,find_arc gf id2 id1) with 
-      | (None,None) ->  update_path (add_arc gf id1 id2 min ) rest  (*if this arc does not exists, we add it into the graph *)
-      | (None,Some x) -> update_path (if x>min then add_arc gf id1 id2 (x-min) else remove_arc gf id2 id1  ) rest
+      | (None,None) ->  update_path (new_arc gf id1 id2 min ) rest  (*if this arc does not exists, we add it into the graph *)
+      | (None,Some x) -> update_path (if x>min then new_arc gf id1 id2 (x-min) else remove_arc gf id2 id1  ) rest
       | (Some x,_) -> update_path ( update_arc gf id1 id2 (x + min) ) rest (*if it already exists, increase this value by adding flow_min  *)
   in update_path gf path	
 
@@ -88,7 +84,7 @@ let initalize_output gf =
 
 let rec ford_fulkerson gf s t =
   let output = initalize_output gf in  
-  let rec loop gf cpt flow output =
+  let rec loop gf flow output =
     if (path_exist gf s t) then
       let path = find_path gf s t in
       let min = min_capacity path in
@@ -96,9 +92,9 @@ let rec ford_fulkerson gf s t =
       print_list path;
       let new_output = update_output output path in
       let new_graph = update_graph gf path in 
-      loop new_graph (cpt+1) flow_max new_output
+      loop new_graph flow_max new_output
     else (output,flow)
-  in let (result,flow_max) = loop gf 0 0 output in
+  in let (result,flow_max) = loop gf 0 output in
   begin
     Printf.printf "Result : Flow max = %d\n" flow_max;
     result 

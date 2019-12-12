@@ -16,7 +16,7 @@ type path = string
 
 (* Reads a line with a source. *)
 let read_source line outfile =
-  try Scanf.sscanf line "S %s %s" (fun id lbl -> fprintf outfile "n %s 1.0\n"  id;
+  try Scanf.sscanf line "S %s %s" (fun id lbl -> fprintf outfile "n %s\n"  id;
                                     fprintf outfile "e 0 %s %s\n"id lbl;)
   with e ->
     Printf.printf "Cannot read source in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
@@ -24,8 +24,8 @@ let read_source line outfile =
 
 (* Reads a line with a destination. *)
 let read_destination line outfile =
-  try Scanf.sscanf line "T %s %s"  (fun id lbl -> fprintf outfile "n %s 1.0\n" id;
-                                     fprintf outfile "e 100 %s  %s\n"  id lbl;)
+  try Scanf.sscanf line "T %s %s"  (fun id lbl -> fprintf outfile "n %s \n" id;
+                                     fprintf outfile "e %s 100 %s\n"  id lbl;)
   with e ->
     Printf.printf "Cannot read arc in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "read_destination"
@@ -43,8 +43,8 @@ let create_file infile outfile =
   let ff = open_out outfile in
 
   (* Create 2 points : Source and Destination*)
-  fprintf ff "n 0 1.0\n";
-  fprintf ff "n 100 1.0\n";
+  fprintf ff "n 0\n";
+  fprintf ff "n 100\n";
 
   (* Read all lines until end of file. *)
   let rec loop () =
@@ -83,6 +83,7 @@ let export path graph =
   (* Write all arcs *)
   (*The output graph must not contain 2 "imaginary" points : the "main" source and the "main" destination*)
   e_iter graph (fun id1 id2 lbl -> if (id1 <> 0 && id1 <> 100 && id2 <> 0&& id2 <> 100 )then fprintf ff "LR_%d -> LR_%d [ label = %s ]\n" id1 id2 lbl) ;
+  (*e_iter graph (fun id1 id2 lbl -> fprintf ff "LR_%d -> LR_%d [ label = %s ]\n" id1 id2 lbl) ;*)
   fprintf ff "}" ;
 
   close_out ff ;
