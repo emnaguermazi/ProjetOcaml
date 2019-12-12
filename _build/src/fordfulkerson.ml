@@ -15,25 +15,25 @@ let path_exist gf s t =
           if List.mem id acu then false else if (id=t) then true else loop (id::acu) id ) (out_arcs gf s)
     in loop [] s
 
+let rec find_arcs gf list_arcs marked t = match list_arcs with
+  | []-> assert false
+  | (id1,id2,lbl)::rest -> if id2 = t then list_arcs else
+      let new_marked = id2 :: marked in
+      (* Check all the out_arcs from id2 then choose all the node which are not marked*)
+      let list_node_not_marked = List.filter (fun(id,_) -> not (List.mem id new_marked)) (out_arcs gf id2) in
+      (*Find from theese node a path to t
+        if a path exist -> return it
+        else check the next node*)
+      let rec loop list = match list with
+        | [] -> [] 
+        | (id,label) :: rest -> 
+          match find_arcs gf ((id2,id,label)::list_arcs) new_marked t with
+          | [] -> loop rest
+          | path -> path
+      in loop list_node_not_marked
+
 
 let find_path gf s t =
-  let rec find_arcs gf list_arcs marked t = match list_arcs with
-    | []-> assert false
-    | (id1,id2,lbl)::rest -> if id2 = t then list_arcs else
-        let new_marked = id2::marked in
-        (* Check all the out_arcs from id2 then choose all the node which are not marked*)
-        let list_node_not_marked = List.filter (fun(id,_) -> not (List.mem id new_marked)) (out_arcs gf id2) in
-        (*Find from theese node a path to t
-          if a path exist -> return it
-          else check the next node*)
-        let rec loop list = match list with
-          | [] -> [] 
-          | (id,lbl)::rest -> 
-            match find_arcs gf ((id2,id,lbl)::list_arcs) new_marked t with
-            | [] -> loop rest
-            | path -> path
-        in loop list_node_not_marked
-  in
   if not (node_exists gf s) then raise(Graph_error ("Node " ^ string_of_int s ^ " does not exist in the graph."))
   else if not (node_exists gf t) then raise(Graph_error ("Node " ^ string_of_int t ^ " does not exist in the graph."))
   else assert (s<>t);
@@ -63,7 +63,7 @@ let update_graph gf path =
   let rec update_rev_path gf path = match path with
     | [] -> gf
     | (id1,id2,_)::rest -> 
-      match find_arc gf id1 id2 with
+      match find_arc gf id2 id1 with
       | None -> update_rev_path (new_arc gf id2 id1 min ) rest
       | Some n -> update_rev_path ( update_arc gf id2 id1 (n + min) ) rest
   in update_rev_path (update_path gf path) path
@@ -75,7 +75,7 @@ let update_output gf path =
     | (id1,id2,_)::rest -> 
       match (find_arc gf id1 id2,find_arc gf id2 id1) with 
       | (None,None) ->  update_path (new_arc gf id1 id2 min ) rest  (*if this arc does not exists, we add it into the graph *)
-      | (None,Some x) -> update_path (if x>min then new_arc gf id1 id2 (x-min) else remove_arc gf id2 id1  ) rest
+      | (None,Some x) -> update_path (if x>min then new_arc gf id2 id1 (x-min) else remove_arc gf id2 id1  ) rest
       | (Some x,_) -> update_path ( update_arc gf id1 id2 (x + min) ) rest (*if it already exists, increase this value by adding flow_min  *)
   in update_path gf path	
 

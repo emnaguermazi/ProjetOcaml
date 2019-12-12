@@ -34,8 +34,14 @@ let read_transport line outfile =
   try Scanf.sscanf line "R %s %s %s" (fun id1 id2 lbl ->
       fprintf outfile "e %s %s %s\n" id1 id2 lbl;)
   with e ->
-    Printf.printf "Cannot read line - %s:\n%s\n" (Printexc.to_string e) line ;
+    Printf.printf "Cannot read line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "read_transport"
+
+let read_node line outfile =
+  try Scanf.sscanf line "N %s" (fun id -> fprintf outfile "n %s\n"  id;)
+  with e ->
+    Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
+    failwith "read_node"
 
 let create_file infile outfile =
 
@@ -60,6 +66,7 @@ let create_file infile outfile =
           | 'S' -> read_source line ff
           | 'T' -> read_destination line ff
           | 'R' -> read_transport line ff 
+          | 'N' -> read_node line ff
           | _ -> ()
       in                 
       loop ()        
@@ -82,7 +89,7 @@ let export path graph =
 
   (* Write all arcs *)
   (*The output graph must not contain 2 "imaginary" points : the "main" source and the "main" destination*)
-  e_iter graph (fun id1 id2 lbl -> if (id1 <> 0 && id1 <> 100 && id2 <> 0&& id2 <> 100 )then fprintf ff "LR_%d -> LR_%d [ label = %s ]\n" id1 id2 lbl) ;
+  e_iter graph (fun id1 id2 lbl -> if (id1 <> 0 && id1 <> 100 && id2 <> 0&& id2 <> 100 )then fprintf ff "%d -> %d [ label = %s ]\n" id1 id2 lbl) ;
   (*e_iter graph (fun id1 id2 lbl -> fprintf ff "LR_%d -> LR_%d [ label = %s ]\n" id1 id2 lbl) ;*)
   fprintf ff "}" ;
 

@@ -14,8 +14,8 @@ let () =
     end ;
 
   let infile = Sys.argv.(1) 
-  and outfile = Sys.argv.(2)
-  and graphfile = Sys.argv.(3)
+  and outfile = Sys.argv.(3)
+  and graphfile = Sys.argv.(2)
 
   in
   Cfile.create_file infile graphfile;

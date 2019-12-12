@@ -105,7 +105,7 @@ let export path graph =
   fprintf ff "node [shape = circle];\n";
 
   (* Write all nodes (with fake coordinates) *)
-  e_iter graph (fun id1 id2 lbl -> fprintf ff "LR_%d -> LR_%d [ label = %s ]\n" id1 id2 lbl) ;
+  e_iter graph (fun id1 id2 lbl -> fprintf ff "%d -> %d [ label = %s ]\n" id1 id2 lbl) ;
   fprintf ff "}\n" ;
 
   close_out ff ;
